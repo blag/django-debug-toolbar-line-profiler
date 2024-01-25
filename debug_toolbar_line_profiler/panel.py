@@ -174,6 +174,11 @@ class ProfilingPanel(Panel):
         if not hasattr(func, '__code__') or func in self.added:
             return
 
+        for _ in range(100):
+            if not hasattr(func, '__wrapped__'):
+                break
+            func = func.__wrapped__
+
         self.added.add(func)
 
         self.line_profiler.add_function(func)
